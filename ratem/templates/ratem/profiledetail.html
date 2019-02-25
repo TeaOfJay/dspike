@@ -1,0 +1,154 @@
+
+{% extends "base.html" %}
+
+
+{% block style %}
+    {% load static %}
+
+{% endblock style %}
+{% block content %}
+{% block script %}
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('.click-table tbody tr').click(function(){
+			var href = $(this).attr('href');
+			if( href) {
+				window.location = href;
+			}
+		});
+	});
+</script>
+{% endblock script %}
+
+<div class="d-flex flex-row align-top">
+	<div class="d-flex flex-column w-50">
+		<div class="p-2 list-group flex-column">
+			<h1 class="border-bottom"> 
+				{% if profile.first_name %}
+					{{profile.first_name}}
+					{{profile.last_name}}
+				{% else %}
+					You don't have a name on record!
+				{% endif %}
+			</h1>
+			{% if profile.school %}
+				<h3> {{profile.school}} </h3>
+				<h3> {{profile.major}}</h3>
+				<h3> 
+					{% if profile.degree == 0%}
+						Undergraduate
+					{% elif profile.degree == 1%}
+						Graduate
+					{% else %}
+						Post-graduate
+					{%endif%}
+				</h3>
+			{%endif %}
+		</div> 
+
+		<h1>
+			Current courses
+		</h1>
+		{% if current %}
+		<table class="table click-table">
+			<thead>
+				<tr>
+					<th scope="col">
+						Course Name
+					</th>
+					<th scope="col">
+						Average GPA
+					</th>
+					<th scope="col">
+						Semester
+					</th>
+					<th scope="col">
+						Year
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for course in current %}
+					<tr class="clickable-row" href="{% url 'course-detail' course.pk%}">
+						<th class="row">
+							{{course.name}}
+						</th>
+						<td>
+							{{course.gpa}}
+						</td>
+						<td>
+							{% if course.semester == 0 %}
+								Spring
+							{% elif course.semester == 1 %}
+								Summer
+							{% else %}
+								Fall
+							{% endif %}
+						</td>
+						<td>
+							{{course.year}}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% else %}
+			<p> No courses found. </p>
+		{% endif %}
+	</div>
+
+	<div class="d-flex flex-column w-50">
+		<div class="border-bottom w-100"> 
+			<h1 class="mr-auto"> Past Courses </h1>
+		</div>
+		{% if past %}
+		<table class="table click-table">
+			<thead>
+				<tr>
+					<th scope="col">
+						Course Name
+					</th>
+					<th scope="col">
+						Average GPA
+					</th>
+					<th scope="col">
+						Semester
+					</th>
+					<th scope="col">
+						Year
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for course in past %}
+					<tr class="clickable-row" href="{% url 'course-detail' course.pk%}">
+						<th class="row">
+							{{course.name}}
+						</th>
+						<td>
+							{{course.gpa}}
+						</td>
+						<td>
+							{% if course.semester == 0 %}
+								Spring
+							{% elif course.semester == 1 %}
+								Summer
+							{% else %}
+								Fall
+							{% endif %}
+						</td>
+						<td>
+							{{course.year}}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% else %}
+			<p> No courses found. </p>
+		{% endif %}
+	</div>
+</div>
+
+
+{% endblock content %}

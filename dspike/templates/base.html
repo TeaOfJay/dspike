@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %} Rate'em {% endblock title %}</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" id="bootstrap-css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+        <!-- fonts in use -->
+        <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+        <link href="https://fonts.googleapis.com/css?family=Krona+One" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+
+        <link href="https://use.fontawesome.com/releases/v5.0.7/css/all.css" rel="stylesheet">
+
+
+        
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'base.css'%}">
+        {% block style %} {% endblock style %}
+        {% block script %} {% endblock script %}
+    </head>
+    <body>
+        <div class = "container-fluid" id="navbar-container">
+            {% block navbar %}
+
+                <nav class="navbar  navbar-expand-lg navbar-dark bg-primary navbar-fixed-top rounded " data-spy="affix" id="navbar">
+                    <a class="navbar-brand" href="{% url 'course-list' %}" id="brand">Rate'em</a>
+                    <ul class="navbar-nav mr-auto">
+                        {% if user.is_authenticated %}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'profile-detail' user.pk %}"> Profile </a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'profile-update' user.pk %}"> Update Profile </a>
+                            </li>
+
+                        {% endif %}
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+                        {% if user.is_authenticated %}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'logout' %}">Logout </a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'login' %}">Login</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{% url 'register' %}">Register</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endblock navbar %}
+        </div>
+        <div class = "container-fluid h-100" id="content">
+            {% block content %}{% endblock content%}      
+        </div>        
+    </body>
+</html>

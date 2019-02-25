@@ -1,0 +1,88 @@
+
+{% extends "base.html" %}
+
+
+{% block style %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'ratem/course_list.css'%}">
+{% endblock style %}
+{% block script %}
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#courses tbody tr').click(function(){
+			var href = $(this).attr('href');
+			if( href) {
+				window.location = href;
+			}
+		});
+	});
+</script>
+{% endblock script %}
+{% block content %}
+
+<div class="container">
+	<div class="d-flex flex-column" id="full_table">
+		<div class="d-flex flex-row" id="header">
+
+			<h1> List of Courses </h1>
+			{% if user.is_authenticated %}
+				<div class="d-flex ml-auto">
+					<a class="btn btn-primary h-100" href="{% url 'course-create' %}">Create Course</a>
+				</div>
+			{% endif %}
+		</div>
+		
+		{% if courses %}
+			<table class="table click-table" id="courses">
+				<thead>
+					<tr>
+						<th scope="col">
+							Course Name
+						</th>
+						<th scope="col">
+							Average GPA
+						</th>
+						<th scope="col">
+							Semester
+						</th>
+						<th scope="col">
+							Year
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for course in courses %}
+						{% if user.is_authenticated %}
+						<tr class="clickable-row" href="{% url 'course-detail' course.pk %}">
+						{% else %}
+						<tr>
+						{% endif %}
+							<th class="row" >
+								{{course.name}}
+							</th>
+							<td>
+								{{course.gpa}}
+							</td>
+							<td>
+								{% if course.semester == 0 %}
+									Spring
+								{% elif course.semester == 1 %}
+									Summer
+								{% else %}
+									Fall
+								{% endif %}
+							</td>
+							<td>
+								{{course.year}}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<p> No courses found. </p>
+		{% endif %}
+	</div>
+</div>
+
+{% endblock content %}

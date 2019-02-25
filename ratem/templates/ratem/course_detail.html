@@ -1,0 +1,110 @@
+
+{% extends "base.html" %}
+
+
+{% block style %}
+    {% load static %}
+
+{% endblock style %}
+{% block script %}
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#assignments tbody tr').click(function(){
+			var href = $(this).attr('href');
+			if( href) {
+				window.location = href;
+			}
+		});
+	});
+</script>
+{% endblock script %}
+{% block content %}
+
+
+<div class="d-flex flex-column">
+	<div class="p-3 mr-auto">
+		<h1> {{course.name}} </h1>
+	</div>
+	<div class="d-flex flex-row align-items-between">
+		{% if course %}
+			
+		<div class="p-3 d-flex flex-column w-50">
+			<h2> Description </h2>
+			<p>{{course.description}}</p>
+			<h2> GPA </h2>
+			<p>{{course.gpa}}</p>
+			<h2> Rating </h2>
+			<p> {{course.rating}} </p>
+			<h2> Semester </h2>
+			<p> 
+				{% if course.semester == 0 %}
+					Spring
+				{% elif course.semester == 1 %}
+					Summer
+				{% else %}
+					Fall
+				{% endif %}
+			 	{{course.year}} 
+			 </p>
+			<table class="table click-table" id="assignments">
+				<thead>
+					<th scope="col">
+						Name
+					</th>
+					<th scope="col">
+						Description
+					</th>
+				</thead>
+				<tbody>
+					{% if assignments %}
+						{% for assignment in assignments %}
+							{% if user.is_authenticated %}
+							<tr class="clickable-row" href="{% url 'assignment-detail' course.pk assignment.pk %}">
+							{% else %}
+							<tr>
+							{% endif %}
+								<th>
+									{{assignment.name}}
+								</th>
+								<th>
+									{{assignment.description}}
+								</th>
+							</tr>
+						{% endfor %}
+					{%else%}
+						<tr><th>No assignments here!</th></tr>
+					{%endif%}
+				</tbody>
+			</table>
+			<div class="d-flex ml-auto">
+				<a class="btn btn-primary btn-lg" href="{% url 'assignment-create' course.pk %}">Create Assignment</a>
+			</div>
+		</div>
+		<div class="p-3 d-flex flex-column w-50">
+			<div class="list-group p-3">
+				{% if comments %}
+					{% for comment in comments %}
+						<a class="list-group-item flex-column align-items-start">
+							<h4 class="mr-auto border-bottom"> {{comment.title}} </h4	>
+							<p class="mb-1"> {{comment.comment}} </p>
+						</a>
+					{% endfor %}
+				{% else %}
+					<p> No comments! Add one to start! </p>
+				{% endif%}
+			</div>
+			<div class="d-flex ml-auto">
+				<a class="btn btn-primary btn-lg" method="post" href="{% url 'course-comment-create' course.pk %}">Create Comment</a>
+			</div>
+		</div>
+		<div class="d-flex flex-column">
+
+		</div>
+
+		{% else %}
+		<h1>No data found! Likely, it seems we've misplaced our request...</h1>
+		{% endif %}
+	</div>
+</div>
+
+{% endblock content %}

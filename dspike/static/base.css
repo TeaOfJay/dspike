@@ -1,0 +1,59 @@
+
+body {
+	font-family : 'Quicksand';
+	font-size   : 12px;
+}
+
+.navbar{
+
+}
+.navbar-nav{
+	.flex-direction: row;
+}
+
+#navbar {
+	font-family : 'Quicksand';
+    font-size   : 12px;
+
+
+
+    -webkit-box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.15);
+    box-shadow:0 6px 8px 0 rgba(0, 0, 0, 0.15);
+}
+#brand {
+	font-size : 24px;
+	font-weight: bold;
+}
+
+.vertical-center {
+	min-height:100%;
+	min-height:100vh;
+	display: flex;
+	align-items:center;
+}
+
+
+#content {
+	padding-top: 45px;
+}
+
+#login  {
+	padding-right: 16px;
+}
+
+.clickable-row { 
+	cursor:pointer;
+}
+
+.click-table {
+	padding-top:10px;
+}
+
+.click-table td{
+	cursor:pointer;
+
+}
+.click-table tr:hover {
+	background-color:#ccc;
+}
