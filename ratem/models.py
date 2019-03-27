@@ -51,7 +51,7 @@ class Assignment(models.Model):
 	name = models.CharField(max_length=255)#
 	description = models.TextField()
 	course = models.ForeignKey(to=Course, related_name="assignments", on_delete=models.CASCADE)
-	
+	#rating
 	def __str__(self):
 		return self.name
 
